@@ -1,0 +1,23 @@
+version: v1alpha1
+debug: false
+persist: true
+machine:
+  type: controlplane
+cluster:
+  network:
+    cni:
+      name: none
+  apiServer:
+    image: registry.k8s.io/kube-apiserver:v1.34.1
+    disablePodSecurityPolicy: true
+  controllerManager:
+    image: registry.k8s.io/kube-controller-manager:v1.34.1
+  proxy:
+    disabled: true
+  scheduler:
+    image: registry.k8s.io/kube-scheduler:v1.34.1
+  discovery:
+    enabled: true
+    registries:
+      kubernetes:
+        disabled: true
