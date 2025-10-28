@@ -1,0 +1,92 @@
+cluster:
+  name: rpi
+  id: 1
+
+cgroup:
+  autoMount:
+    enabled: false
+  hostRoot: /sys/fs/cgroup
+
+securityContext:
+  capabilities:
+    cleanCiliumState:
+      - NET_ADMIN
+      - SYS_ADMIN
+      - SYS_RESOURCE
+    ciliumAgent:
+      - CHOWN
+      - KILL
+      - NET_ADMIN
+      - NET_RAW
+      - IPC_LOCK
+      - SYS_ADMIN
+      - SYS_RESOURCE
+      - DAC_OVERRIDE
+      - FOWNER
+      - SETGID
+      - SETUID
+
+envoy:
+  enabled: false
+
+externalIPs:
+  enabled: true
+
+bpf:
+  masquerade: true
+
+prometheus:
+  enabled: true
+  port: 9962
+  serviceMonitor:
+    enabled: false
+
+operator:
+  replicas: 1
+  prometheus:
+    enabled: true
+    port: 9963
+    serviceMonitor:
+      enabled: false
+
+hubble:
+  enabled: true
+  metrics:
+    enabled:
+      - dns:ignoreAAAA;sourceContext=pod|namespace
+      - drop:sourceContext=pod|namespace;destinationContext=pod|namespace
+      - flows-to-world:any-drop;port;sourceContext=pod|namespace;destinationContext=dns|ip
+      - httpV2:method;status;reporter;sourceContext=pod|namespace;destinationContext=pod|namespace
+    port: 9965
+    serviceMonitor:
+      enabled: false
+  relay:
+    enabled: true
+    rollOutPods: true
+    service:
+      type: NodePort
+      nodePort: 31000
+    prometheus:
+      enabled: true
+      port: 9966
+      serviceMonitor:
+        enabled: false
+        namespace: kube-system
+  ui:
+    enabled: true
+
+kubeProxyReplacement: true
+k8sServiceHost: 192.168.55.235
+k8sServicePort: 6443
+
+l2announcements:
+  enabled: true
+
+ipam:
+  operator:
+    clusterPoolIPv4PodCIDRList: ["10.100.0.0/16"]
+    clusterPoolIPv4MaskSize: 24
+
+k8sClientRateLimit:
+  qps: 20
+  burst: 50
