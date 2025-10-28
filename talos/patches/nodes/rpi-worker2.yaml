@@ -1,0 +1,20 @@
+machine:
+  certSANs:
+    - 192.168.55.237
+    - rpi-worker2
+    - rpi-worker2.local
+  network:
+    hostname: rpi-worker2
+    interfaces:
+      - interface: end0
+        addresses:
+          - 192.168.55.237/24
+        routes:
+          - network: 0.0.0.0/0
+            gateway: 192.168.55.1
+cluster:
+  apiServer:
+    certSANs:
+      - 192.168.55.237
+      - rpi-worker2
+      - rpi-worker2.local

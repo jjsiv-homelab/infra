@@ -5,6 +5,7 @@ function print_help() {
     echo "Options:"
     echo "  -W, --worker          Output type worker"
     echo "  -C, --controlplane    Output type controlplane"
+    echo "  -T, --talosconfig     Generate talosconfig file"
     echo "  -h, --help            Display this help message"
     exit 1
 }

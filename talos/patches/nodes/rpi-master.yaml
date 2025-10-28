@@ -1,0 +1,20 @@
+machine:
+  certSANs:
+    - 192.168.55.235
+    - rpi-master
+    - rpi-master.local
+  network:
+    hostname: rpi-master
+    interfaces:
+      - interface: end0
+        addresses:
+          - 192.168.55.235/24
+        routes:
+          - network: 0.0.0.0/0
+            gateway: 192.168.55.1
+cluster:
+  apiServer:
+    certSANs:
+      - 192.168.55.235
+      - rpi-master
+      - rpi-master.local
