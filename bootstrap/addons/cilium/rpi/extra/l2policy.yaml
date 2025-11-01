@@ -5,7 +5,7 @@ metadata:
 spec:
   serviceSelector:
     matchLabels:
-      l2-announce: "true"
+      announce: "true"
   externalIPs: true
   loadBalancerIPs: true
   interfaces:

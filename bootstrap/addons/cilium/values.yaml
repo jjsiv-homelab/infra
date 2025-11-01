@@ -96,6 +96,7 @@ ingressController:
     loadBalancerIP: 10.21.37.10
     labels:
       ip-pool: main
+      announce: "true"
 
 k8sClientRateLimit:
   qps: 20
