@@ -1,0 +1,25 @@
+global:
+  domain: argocd.homelab.local
+
+configs:
+  cm:
+    accounts.jjsiv: apiKey,login
+    accounts.jjsiv.enabled: "true"
+    exec.enabled: true
+
+  params:
+    server.insecure: true
+    applicationsetcontroller.enable.progressive.syncs: true
+
+  rbac:
+    policy.csv: |
+      g, jjsiv, role:admin
+
+server:
+  ingress:
+    enabled: true
+    ingressClassName: cilium
+    hostname: argocd.homelab.local
+    tls: true
+    annotations:
+      external-dns.alpha.kubernetes.io/target: lb.rpi.local

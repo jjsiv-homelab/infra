@@ -34,6 +34,7 @@ externalIPs:
 
 bpf:
   masquerade: true
+  hostLegacyRouting: true
 
 prometheus:
   enabled: true

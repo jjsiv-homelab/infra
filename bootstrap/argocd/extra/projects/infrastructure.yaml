@@ -1,0 +1,17 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: infrastructure
+  namespace: argocd
+spec:
+  description: "Project used for managing infrastructure."
+  destinations:
+  - namespace: '*'
+    server: '*'
+  sourceRepos:
+    - '*'
+  clusterResourceWhitelist:
+  - group: '*'
+    kind: '*'
+  sourceNamespaces:
+  - argocd
