@@ -1,0 +1,12 @@
+apiVersion: "cilium.io/v2alpha1"
+kind: CiliumL2AnnouncementPolicy
+metadata:
+  name: l2-policy
+spec:
+  serviceSelector:
+    matchLabels:
+      l2-announce: "true"
+  externalIPs: true
+  loadBalancerIPs: true
+  interfaces:
+    - end0

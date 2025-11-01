@@ -88,6 +88,15 @@ ipam:
     clusterPoolIPv4PodCIDRList: ["10.100.0.0/16"]
     clusterPoolIPv4MaskSize: 24
 
+ingressController:
+  enabled: true
+  default: true
+  loadbalancerMode: shared
+  service:
+    loadBalancerIP: 10.21.37.10
+    labels:
+      ip-pool: main
+
 k8sClientRateLimit:
   qps: 20
   burst: 50
