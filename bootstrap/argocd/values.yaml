@@ -20,4 +20,9 @@ server:
     enabled: true
     ingressClassName: cilium
     hostname: argocd.homelab.local
-    tls: false
+    tls: true
+  certificate:
+    enabled: true
+    issuer:
+      kind: ClusterIssuer
+      name: homelab-ca-issuer
