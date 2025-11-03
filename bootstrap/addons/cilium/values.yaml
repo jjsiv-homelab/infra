@@ -92,6 +92,8 @@ ingressController:
   enabled: true
   default: true
   loadbalancerMode: shared
+  defaultSecretNamespace: kube-system
+  defaultSecretName: ingress-default-tls
   service:
     loadBalancerIP: 10.21.37.10
     labels:
