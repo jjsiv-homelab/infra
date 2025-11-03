@@ -20,6 +20,4 @@ server:
     enabled: true
     ingressClassName: cilium
     hostname: argocd.homelab.local
-    tls: true
-    annotations:
-      external-dns.alpha.kubernetes.io/target: lb.rpi.local
+    tls: false
