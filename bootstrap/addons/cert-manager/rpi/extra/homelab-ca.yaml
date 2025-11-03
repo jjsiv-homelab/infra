@@ -19,7 +19,7 @@ spec:
     algorithm: ECDSA
     size: 256
   issuerRef:
-    name: ca-bootstrap
+    name: homelab-ca-bootstrap
     kind: ClusterIssuer
     group: cert-manager.io
 
