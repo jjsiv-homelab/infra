@@ -16,7 +16,7 @@ spec:
         ignoreMissingValueFiles: true
         releaseName: argocd
         valueFiles:
-          - $values/bootstrap/argocd/values.yaml
+          - $values/bootstrap/management/argocd/values.yaml
     - repoURL: git@github.com:jjsiv-homelab/infra.git
       targetRevision: main
       ref: values
