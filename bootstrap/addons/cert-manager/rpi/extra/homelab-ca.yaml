@@ -30,4 +30,4 @@ metadata:
   name: homelab-ca-issuer
 spec:
   ca:
-    secretName: ca-root
+    secretName: homelab-ca-root
