@@ -22,7 +22,7 @@ spec:
       ref: values
     - repoURL: git@github.com:jjsiv-homelab/infra.git
       targetRevision: main
-      path: bootstrap/capi/extra
+      path: bootstrap/management/capi/extra
       directory:
         recurse: true
   syncPolicy:
