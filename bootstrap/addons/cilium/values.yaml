@@ -27,7 +27,7 @@ securityContext:
       - SETUID
 
 envoy:
-  enabled: true
+  enabled: false
 
 externalIPs:
   enabled: true
