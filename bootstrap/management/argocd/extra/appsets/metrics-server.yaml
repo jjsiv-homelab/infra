@@ -1,0 +1,44 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: metrics-server
+  namespace: argocd
+spec:
+  goTemplate: true
+  syncPolicy:
+    preserveResourcesOnDeletion: true
+  generators:
+    - clusters:
+        selector:
+          matchLabels:
+            deploy-metrics-server: "true"
+  template:
+    metadata:
+      name: "metrics-server-{{ .name }}"
+      labels:
+        addon: "metrics-server"
+    spec:
+      project: infrastructure
+      destination:
+        name: "{{ .name }}"
+        namespace: metrics-server
+      sources:
+        - repoURL: https://kubernetes-sigs.github.io/metrics-server
+          chart: metrics-server
+          targetRevision: 3.13.*
+          helm:
+            ignoreMissingValueFiles: true
+            releaseName: metrics-server
+            valueFiles:
+              - $values/bootstrap/addons/metrics-server/values.yaml
+              - $values/bootstrap/addons/metrics-server/{{ .name }}/values.yaml
+        - repoURL: git@github.com:jjsiv-homelab/infra.git
+          targetRevision: main
+          ref: values
+      syncPolicy:
+        automated:
+          selfHeal: true
+          prune: true
+        syncOptions:
+          - ServerSideApply=true
+          - CreateNamespace=true

@@ -13,3 +13,18 @@
 - GitOps promoter or Kargo (or both)
 - Keycloak (maybe)
 - Cluster upgrades with clusters as cattle approach
+
+# Tenant onboarding
+
+Create Helm chart
+
+```yaml
+apiVersion: abc.com/v1alpha1
+kind: Tenant
+metadata:
+  name: tenant-1
+spec:
+  techstack:
+    language: Go
+    stateless: true
+```
