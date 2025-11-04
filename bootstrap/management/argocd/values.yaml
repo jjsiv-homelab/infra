@@ -5,6 +5,8 @@ configs:
   cm:
     accounts.jjsiv: apiKey,login
     accounts.jjsiv.enabled: "true"
+    accounts.crossplane: apiKey
+    accounts.crossplane.enabled: "true"
     exec.enabled: true
 
   params:
