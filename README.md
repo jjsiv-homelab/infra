@@ -13,6 +13,7 @@
 - GitOps promoter or Kargo (or both)
 - Keycloak (maybe)
 - Cluster upgrades with clusters as cattle approach
+- KEDA
 
 # Tenant onboarding
 

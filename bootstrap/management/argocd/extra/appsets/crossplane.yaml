@@ -1,0 +1,29 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: crossplane
+  namespace: argocd
+spec:
+  project: infrastructure
+  destination:
+    name: rpi
+    namespace: crossplane-system
+  sources:
+    - repoURL: https://charts.crossplane.io/stable
+      chart: crossplane
+      targetRevision: 2.0.*
+      helm:
+        ignoreMissingValueFiles: true
+        releaseName: crossplane
+        valueFiles:
+          - $values/bootstrap/management/crossplane/values.yaml
+    - repoURL: git@github.com:jjsiv-homelab/infra.git
+      targetRevision: main
+      ref: values
+  syncPolicy:
+    automated:
+      selfHeal: true
+      prune: true
+    syncOptions:
+      - ServerSideApply=true
+      - CreateNamespace=true
