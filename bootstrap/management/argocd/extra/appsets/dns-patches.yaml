@@ -22,7 +22,7 @@ spec:
       sources:
         - repoURL: git@github.com:jjsiv-homelab/infra.git
           targetRevision: main
-          path: bootstrap/addons/dns-patches/{{ .name }}
+          path: bootstrap/addons/dns-patches
       syncPolicy:
         automated:
           selfHeal: true
