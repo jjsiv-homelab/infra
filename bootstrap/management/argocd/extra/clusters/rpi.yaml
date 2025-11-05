@@ -1,0 +1,18 @@
+apiVersion: cluster.argocd.crossplane.io/v1alpha1
+kind: Cluster
+metadata:
+  name: rpi
+  namespace: argocd
+spec:
+  forProvider:
+    labels:
+      deploy-cert-manager: "true"
+      deploy-cilium: "true"
+      deploy-metrics-server: "true"
+    config:
+      tlsClientConfig:
+        insecure: true
+    name: rpi
+    server: https://kubernetes.default.svc
+  providerConfigRef:
+    name: argocd-provider
