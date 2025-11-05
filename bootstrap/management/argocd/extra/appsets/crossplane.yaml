@@ -20,6 +20,11 @@ spec:
     - repoURL: git@github.com:jjsiv-homelab/infra.git
       targetRevision: main
       ref: values
+    - repoURL: git@github.com:jjsiv-homelab/infra.git
+      targetRevision: main
+      path: boostrap/management/crossplane
+      directory:
+        recurse: true
   syncPolicy:
     automated:
       selfHeal: true
