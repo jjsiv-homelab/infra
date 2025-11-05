@@ -9,6 +9,13 @@
     }
     prometheus :9153
 
+    hosts {
+        192.168.55.235 rpi-master
+        192.168.55.236 rpi-worker1
+        192.168.55.237 rpi-worker2
+        192.168.55.238 rpi-worker3
+        fallthrough
+    }
     kubernetes cluster.local in-addr.arpa ip6.arpa {
         pods insecure
         fallthrough in-addr.arpa ip6.arpa
