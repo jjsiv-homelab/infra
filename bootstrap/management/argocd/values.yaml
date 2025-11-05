@@ -16,6 +16,7 @@ configs:
   rbac:
     policy.csv: |
       g, jjsiv, role:admin
+      g, crossplane, role:admin
 
 server:
   ingress:
