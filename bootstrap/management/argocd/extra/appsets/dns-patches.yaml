@@ -1,0 +1,32 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: dns-patches
+  namespace: argocd
+spec:
+  goTemplate: true
+  syncPolicy:
+    preserveResourcesOnDeletion: true
+  generators:
+    - clusters: {}
+  template:
+    metadata:
+      name: "dns-patches-{{ .name }}"
+      labels:
+        addon: "dns-patches"
+    spec:
+      project: infrastructure
+      destination:
+        name: "{{ .name }}"
+        namespace: kube-system
+      sources:
+        - repoURL: git@github.com:jjsiv-homelab/infra.git
+          targetRevision: main
+          path: bootstrap/addons/dns-patches/{{ .name }}
+      syncPolicy:
+        automated:
+          selfHeal: true
+          prune: true
+        syncOptions:
+          - ServerSideApply=true
+          - CreateNamespace=true
