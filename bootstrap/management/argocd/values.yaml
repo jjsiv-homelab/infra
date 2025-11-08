@@ -29,3 +29,8 @@ server:
     issuer:
       kind: ClusterIssuer
       name: homelab-ca-issuer
+
+commitServer:
+  enabled: true
+  metrics:
+    enabled: true
