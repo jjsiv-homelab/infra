@@ -9,6 +9,8 @@ configs:
     accounts.crossplane.enabled: "true"
     exec.enabled: true
 
+    kustomize.buildOptions: "--enable-helm"
+
   params:
     server.insecure: true
     applicationsetcontroller.enable.progressive.syncs: true
