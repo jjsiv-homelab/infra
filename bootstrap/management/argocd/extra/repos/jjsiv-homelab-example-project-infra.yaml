@@ -1,0 +1,15 @@
+apiVersion: repositories.argocd.crossplane.io/v1alpha1
+kind: Repository
+metadata:
+  name: jjsiv-homelab-example-project-infra
+  namespace: argocd
+spec:
+  forProvider:
+    sshPrivateKeyRef:
+      key: key
+      name: jjsiv-homelab-ssh
+      namespace: crossplane-system
+    repo: git@github.com:jjsiv-homelab/example-project-infra.git
+    type: git
+  providerConfigRef:
+    name: argocd-provider
