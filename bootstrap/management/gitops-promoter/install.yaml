@@ -177,12 +177,14 @@ spec:
                     that are selected by the commit status.
                   properties:
                     clusterName:
-                      description: ClusterName is the name of the cluster that the
-                        application manifest is deployed to.
+                      description: |-
+                        ClusterName is the name of the cluster that the application manifest is deployed to. An empty string indicates
+                        the local cluster.
                       type: string
                     environment:
                       description: Environment is the syncSource.targetBranch of the
                         Argo CD application (in effect, its environment).
+                      minLength: 1
                       type: string
                     lastTransitionTime:
                       description: LastTransitionTime is the last time the phase transitioned.
@@ -203,6 +205,7 @@ spec:
                       type: string
                   required:
                   - clusterName
+                  - environment
                   - name
                   - namespace
                   - phase
@@ -1586,6 +1589,7 @@ spec:
                 - pending
                 - success
                 - failure
+                - ""
                 type: string
               sha:
                 type: string
@@ -5488,9 +5492,11 @@ spec:
         - --metrics-bind-address=127.0.0.1:8080
         - --leader-elect
         command:
+        - /usr/bin/tini
+        - --
         - /gitops-promoter
         - controller
-        image: quay.io/argoprojlabs/gitops-promoter:v0.17.0
+        image: quay.io/argoprojlabs/gitops-promoter:v0.18.2
         livenessProbe:
           httpGet:
             path: /healthz
