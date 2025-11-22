@@ -2,3 +2,6 @@ core:
   cluster-api: {}
 infrastructure:
   vcluster: {}
+  proxmox: {}
+ipam:
+  in-cluster: {}
