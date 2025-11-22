@@ -1,3 +1,4 @@
+enableHelmHook: false
 core:
   cluster-api: {}
 infrastructure:
