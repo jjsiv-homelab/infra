@@ -5,14 +5,15 @@ infrastructure:
   vcluster: {}
   proxmox:
     version: v0.7.5
-    manifestPatches: |
-      apiVersion: apps/v1
-      kind: Deployment
-      spec:
-        template:
-          spec:
-            containers:
-              - name: manager
-                imageUrl: ghcr.io/jjsiv/cluster-api-provider-proxmox:v0.7.5
+    manifestPatches:
+      - |
+        apiVersion: apps/v1
+        kind: Deployment
+        spec:
+          template:
+            spec:
+              containers:
+                - name: manager
+                  imageUrl: ghcr.io/jjsiv/cluster-api-provider-proxmox:v0.7.5
 ipam:
   in-cluster: {}
