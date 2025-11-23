@@ -12,12 +12,11 @@ metadata:
   namespace: proxmox-infrastructure-system
   annotations:
     "argocd.argoproj.io/sync-wave": "2"
-  spec:
-    deployment:
-      containers:
-        - name: manager
-          imageUrl: https://github.com/jjsiv/cluster-api-provider-proxmox
 spec:
   version: v0.7.5
+  deployment:
+    containers:
+      - name: manager
+        imageUrl: https://github.com/jjsiv/cluster-api-provider-proxmox
 ---
 
