@@ -5,6 +5,8 @@ resources:
   - https://github.com/kubernetes-sigs/cluster-api-operator/releases/download/v0.24.1/operator-components.yaml
   - ./core-provider.yaml
   - ./bootstrap-kubeadm.yaml
+  - ./bootstrap-talos.yaml
   - ./infra-proxmox.yaml
   - ./infra-vcluster.yaml
   - ./ipam-in-cluster.yaml
+  - ./cp-talos.yaml

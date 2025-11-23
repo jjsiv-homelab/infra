@@ -17,6 +17,6 @@ spec:
   deployment:
     containers:
       - name: manager
-        imageUrl: https://github.com/jjsiv/cluster-api-provider-proxmox
+        imageUrl: ghcr.io/jjsiv/cluster-api-provider-proxmox:v0.7.5
 ---
 
