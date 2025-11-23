@@ -4,6 +4,7 @@ kind: Kustomization
 resources:
   - https://github.com/kubernetes-sigs/cluster-api-operator/releases/download/v0.24.1/operator-components.yaml
   - ./core-provider.yaml
-  - ./bootstrap.yaml
-  - ./infrastructure.yaml
-  - ./ipam.yaml
+  - ./bootstrap-kubeadm.yaml
+  - ./infra-proxmox.yaml
+  - ./infra-vcluster.yaml
+  - ./ipam-in-cluster.yaml
