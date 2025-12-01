@@ -6,7 +6,7 @@ metadata:
 spec:
   goTemplate: true
   syncPolicy:
-    preserveResourcesOnDeletion: true
+    preserveResourcesOnDeletion: false
   generators:
     - clusters:
         selector:
@@ -21,6 +21,7 @@ spec:
       project: infrastructure
       destination:
         name: "{{ .name }}"
+        namespace: monitoring
       sources:
         - repoURL: https://prometheus-community.github.io/helm-charts
           chart: kube-prometheus-stack
