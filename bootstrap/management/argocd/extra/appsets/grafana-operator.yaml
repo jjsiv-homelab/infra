@@ -1,0 +1,49 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: grafana-operator
+  namespace: argocd
+spec:
+  goTemplate: true
+  syncPolicy:
+    preserveResourcesOnDeletion: true
+  generators:
+    - clusters:
+        selector:
+          matchLabels:
+            deploy-grafana-operator: "true"
+  template:
+    metadata:
+      name: "grafana-operator-{{ .name }}"
+      labels:
+        addon: "grafana-operator"
+    spec:
+      project: infrastructure
+      destination:
+        name: "{{ .name }}"
+        namespace: grafana-operator
+      sources:
+        - repoURL: ghcr.io/grafana/helm-charts
+          chart: grafana-operator
+          targetRevision: v5.20.*
+          helm:
+            ignoreMissingValueFiles: true
+            releaseName: grafana-operator
+            valueFiles:
+              - $values/bootstrap/addons/grafana-operator/values.yaml
+              - $values/bootstrap/addons/grafana-operator/{{ .name }}/values.yaml
+        - repoURL: git@github.com:jjsiv-homelab/infra.git
+          targetRevision: main
+          ref: values
+        - repoURL: git@github.com:jjsiv-homelab/infra.git
+          targetRevision: main
+          path: bootstrap/addons/grafana-operator/{{ .name }}
+          directory:
+            recurse: true
+      syncPolicy:
+        automated:
+          selfHeal: true
+          prune: true
+        syncOptions:
+          - ServerSideApply=true
+          - CreateNamespace=true
