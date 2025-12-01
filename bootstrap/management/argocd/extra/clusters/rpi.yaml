@@ -10,6 +10,7 @@ spec:
       deploy-cilium: "true"
       deploy-metrics-server: "true"
       deploy-kube-prometheus-stack: "true"
+      deploy-grafana-operator: "true"
       cluster-type: "management"
     config:
       tlsClientConfig:
