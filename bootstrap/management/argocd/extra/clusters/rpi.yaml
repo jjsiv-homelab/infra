@@ -9,6 +9,7 @@ spec:
       deploy-cert-manager: "true"
       deploy-cilium: "true"
       deploy-metrics-server: "true"
+      deploy-kube-prometheus-stack: "true"
       cluster-type: "management"
     config:
       tlsClientConfig:
