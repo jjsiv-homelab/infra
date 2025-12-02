@@ -1,7 +1,3 @@
-cluster:
-  name: rpi
-  id: 1
-
 cgroup:
   autoMount:
     enabled: false
@@ -77,28 +73,7 @@ hubble:
     enabled: true
 
 kubeProxyReplacement: true
-k8sServiceHost: 192.168.55.235
 k8sServicePort: 6443
-
-l2announcements:
-  enabled: true
-
-ipam:
-  operator:
-    clusterPoolIPv4PodCIDRList: ["10.100.0.0/16"]
-    clusterPoolIPv4MaskSize: 24
-
-ingressController:
-  enabled: true
-  default: true
-  loadbalancerMode: shared
-  defaultSecretNamespace: kube-system
-  defaultSecretName: ingress-default-tls
-  service:
-    loadBalancerIP: 10.21.37.10
-    labels:
-      ip-pool: main
-      announce: "true"
 
 k8sClientRateLimit:
   qps: 20

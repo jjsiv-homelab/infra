@@ -1,0 +1,42 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: clusters
+  namespace: argocd
+spec:
+  goTemplate: true
+  syncPolicy:
+    preserveResourcesOnDeletion: true
+  generators:
+    - git:
+        repoURL: git@github.com:jjsiv-homelab/infra.git
+        revision: HEAD
+        directories:
+          - path: bootstrap/clusters/*
+  template:
+    metadata:
+      name: "cluster-{{ .path.basename }}"
+    spec:
+      project: infrastructure
+      destination:
+        name: "rpi"
+        namespace: argocd
+      sources:
+        - repoURL: https://jjsiv-homelab.github.io/infra-helm-charts
+          chart: cluster
+          targetRevision: 0.1.1
+          helm:
+            ignoreMissingValueFiles: true
+            releaseName: "{{ .path.basename }}"
+            valueFiles:
+              - $values/{{ .path.path }}/values.yaml
+        - repoURL: git@github.com:jjsiv-homelab/infra.git
+          targetRevision: main
+          ref: values
+      syncPolicy:
+        automated:
+          selfHeal: true
+          prune: true
+        syncOptions:
+          - ServerSideApply=true
+          - CreateNamespace=true
