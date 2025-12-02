@@ -1,0 +1,6 @@
+addons:
+  cert-manager: "true"
+  cilium: "true"
+  metrics-server: "true"
+  kube-prometheus-stack: "true"
+  grafana-operator: "false"

@@ -11,6 +11,11 @@ spec:
       deploy-metrics-server: "true"
       deploy-kube-prometheus-stack: "true"
       deploy-grafana-operator: "true"
+      addon/cert-manager: "true"
+      addon/cilium: "true"
+      addon/metrics-server: "true"
+      addon/kube-prometheus-stack: "true"
+      addon/grafana-operator: "true"
       cluster-type: "management"
     config:
       tlsClientConfig:

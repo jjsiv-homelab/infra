@@ -1,0 +1,8 @@
+name: rpi
+type: management
+
+cluster:
+  create: false
+
+addons:
+  grafana-operator: "true"
