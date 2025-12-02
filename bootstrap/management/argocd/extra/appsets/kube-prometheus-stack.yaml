@@ -11,7 +11,7 @@ spec:
     - clusters:
         selector:
           matchLabels:
-            deploy-kube-prometheus-stack: "true"
+            addon/kube-prometheus-stack: "true"
   template:
     metadata:
       name: "kube-prometheus-stack-{{ .name }}"

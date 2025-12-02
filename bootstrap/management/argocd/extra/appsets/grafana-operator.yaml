@@ -11,7 +11,7 @@ spec:
     - clusters:
         selector:
           matchLabels:
-            deploy-grafana-operator: "true"
+            addon/grafana-operator: "true"
   template:
     metadata:
       name: "grafana-operator-{{ .name }}"

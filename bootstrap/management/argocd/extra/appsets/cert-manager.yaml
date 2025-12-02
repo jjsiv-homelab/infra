@@ -11,7 +11,7 @@ spec:
     - clusters:
         selector:
           matchLabels:
-            deploy-cert-manager: "true"
+            addon/cert-manager: "true"
   template:
     metadata:
       name: "cert-manager-{{ .name }}"

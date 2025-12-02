@@ -11,7 +11,7 @@ spec:
     - clusters:
         selector:
           matchLabels:
-            deploy-cilium: "true"
+            addon/cilium: "true"
   template:
     metadata:
       name: "cilium-{{ .name }}"
