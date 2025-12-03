@@ -12,6 +12,38 @@ spec:
   config:
     log:
       mode: "console"
-    security:
-      admin_user: root
-      admin_password: secret
+    disableDefaultAdminSecret: true
+  deployment:
+    spec:
+      template:
+        spec:
+          containers:
+            - name: grafana
+              env:
+                - name: GF_SECURITY_ADMIN_USER
+                  valueFrom:
+                    secretKeyRef:
+                      key: GF_SECURITY_ADMIN_USER
+                      name: credentials
+                - name: GF_SECURITY_ADMIN_PASSWORD
+                  valueFrom:
+                    secretKeyRef:
+                      key: GF_SECURITY_ADMIN_PASSWORD
+                      name: credentials
+  service:
+    type: LoadBalancer
+    loadBalancerIP: 10.21.37.11
+  ingress:
+    spec:
+      ingressClassName: cilium
+      rules:
+        - host: grafana.homelab.local
+          http:
+            paths:
+              - backend:
+                  service:
+                    name: grafana-service
+                    port:
+                      number: 3000
+                path: /
+                pathType: Prefix
