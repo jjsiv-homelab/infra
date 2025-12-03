@@ -29,6 +29,7 @@ spec:
             ignoreMissingValueFiles: true
             releaseName: "{{ .path.basename }}"
             valueFiles:
+              - $values/bootstrap/clusters/values.yaml
               - $values/{{ .path.path }}/values.yaml
         - repoURL: git@github.com:jjsiv-homelab/infra.git
           targetRevision: main
