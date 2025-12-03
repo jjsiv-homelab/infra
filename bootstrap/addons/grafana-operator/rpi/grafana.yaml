@@ -8,6 +8,8 @@ kind: Grafana
 metadata:
   name: grafana
   namespace: grafana
+  labels:
+    grafana: "rpi"
 spec:
   config:
     log:
@@ -47,3 +49,21 @@ spec:
                       number: 3000
                 path: /
                 pathType: Prefix
+---
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDatasource
+metadata:
+  name: prometheus
+  namespace: grafana
+spec:
+  instanceSelector:
+    matchLabels:
+      grafana: "rpi"
+  datasource:
+    name: prometheus-rpi
+    type: prometheus
+    url: http://kube-prometheus-stack-prometheus.monitoring.svc.cluster.local:9090
+    isDefault: true
+    jsonData:
+      "tlsSkipVerify": true
+      "timeInterval": "5s"
