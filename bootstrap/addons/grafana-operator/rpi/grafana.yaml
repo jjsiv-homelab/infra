@@ -31,8 +31,9 @@ spec:
                       key: GF_SECURITY_ADMIN_PASSWORD
                       name: credentials
   service:
-    type: LoadBalancer
-    loadBalancerIP: 10.21.37.11
+    spec:
+      type: LoadBalancer
+      loadBalancerIP: 10.21.37.11
   ingress:
     spec:
       ingressClassName: cilium
