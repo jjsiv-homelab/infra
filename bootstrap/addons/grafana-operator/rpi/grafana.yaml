@@ -32,9 +32,7 @@ spec:
                       name: credentials
   ingress:
     spec:
-      tls:
-        - hosts:
-            - grafana.homelab.local
+      tls: []
       ingressClassName: cilium
       rules:
         - host: grafana.homelab.local
