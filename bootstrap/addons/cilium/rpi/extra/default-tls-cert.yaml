@@ -4,7 +4,6 @@ metadata:
   name: ingress-default-tls
   namespace: kube-system
 spec:
-  isCA: true
   commonName: "*.homelab.local"
   secretName: ingress-default-tls
   privateKey:
