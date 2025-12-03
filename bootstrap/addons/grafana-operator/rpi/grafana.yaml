@@ -12,7 +12,7 @@ spec:
   config:
     log:
       mode: "console"
-    disableDefaultAdminSecret: true
+  disableDefaultAdminSecret: true
   deployment:
     spec:
       template:
