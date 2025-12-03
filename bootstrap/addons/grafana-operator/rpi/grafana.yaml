@@ -30,12 +30,10 @@ spec:
                     secretKeyRef:
                       key: GF_SECURITY_ADMIN_PASSWORD
                       name: credentials
-  service:
-    spec:
-      type: LoadBalancer
-      loadBalancerIP: 10.21.37.11
   ingress:
     spec:
+      tls:
+        - hosts: grafana.homelab.local
       ingressClassName: cilium
       rules:
         - host: grafana.homelab.local
