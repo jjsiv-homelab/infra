@@ -62,6 +62,7 @@ spec:
   datasource:
     name: prometheus-rpi
     type: prometheus
+    access: proxy
     url: http://kube-prometheus-stack-prometheus.monitoring.svc.cluster.local:9090
     isDefault: true
     jsonData:
