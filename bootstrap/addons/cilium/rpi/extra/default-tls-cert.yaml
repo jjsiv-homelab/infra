@@ -16,3 +16,6 @@ spec:
   uris:
     - "*.homelab.local"
     - homelab.local
+  dnsNames:
+    - "*.homelab.local"
+    - homelab.local
