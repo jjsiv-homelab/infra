@@ -13,3 +13,6 @@ spec:
     name: homelab-ca-issuer
     kind: ClusterIssuer
     group: cert-manager.io
+  uris:
+    - "*.homelab.local"
+    - homelab.local
