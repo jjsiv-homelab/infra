@@ -5496,7 +5496,7 @@ spec:
         - --
         - /gitops-promoter
         - controller
-        image: quay.io/argoprojlabs/gitops-promoter:v0.18.2
+        image: quay.io/argoprojlabs/gitops-promoter:v0.18.3
         livenessProbe:
           httpGet:
             path: /healthz
