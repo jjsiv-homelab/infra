@@ -9,6 +9,7 @@ spec:
     - namespace: "*"
       server: "*"
   sourceRepos:
+    - git@github.com:jjsiv-homelab/tenants.git
     - https://jjsiv-homelab.github.io/infra-helm-charts
   clusterResourceWhitelist:
     - group: "*"
