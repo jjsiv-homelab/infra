@@ -1,0 +1,41 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: tenants
+  namespace: argocd
+spec:
+  goTemplate: true
+  syncPolicy:
+    preserveResourcesOnDeletion: true
+  generators:
+    - git:
+        repoURL: "git@github.com:jjsiv-homelab/tenants.git"
+        revision: main
+        directories:
+          - path: "tenants/*"
+  template:
+    metadata:
+      name: "tenant-{{ .path.basename }}"
+      labels:
+        tenant: "{{ .path.basename }}"
+    spec:
+      project: tenants
+      destination:
+        name: "rpi"
+      sources:
+        - repoURL: https://jjsiv-homelab.github.io/infra-helm-charts
+          chart: tenant
+          targetRevision: 0.2.0
+          helm:
+            releaseName: "{{ .path.basename }}"
+            valueFiles:
+              - $values/{{ .path.path }}/tenant.yaml
+        - repoURL: git@github.com:jjsiv-homelab/tenants.git
+          targetRevision: main
+          ref: values
+      syncPolicy:
+        automated:
+          selfHeal: true
+          prune: true
+        syncOptions:
+          - ServerSideApply=true

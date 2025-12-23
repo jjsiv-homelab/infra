@@ -1,0 +1,17 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: tenants
+  namespace: argocd
+spec:
+  description: "Project used for managing tenant infrastructure."
+  destinations:
+    - namespace: "*"
+      server: "*"
+  sourceRepos:
+    - https://jjsiv-homelab.github.io/infra-helm-charts
+  clusterResourceWhitelist:
+    - group: "*"
+      kind: "*"
+  sourceNamespaces:
+    - tenant-*
