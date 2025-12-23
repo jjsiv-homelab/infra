@@ -12,7 +12,7 @@ spec:
         repoURL: "git@github.com:jjsiv-homelab/tenants.git"
         revision: main
         directories:
-          - path: "tenants/*"
+          - path: "*"
   template:
     metadata:
       name: "tenant-{{ .path.basename }}"
