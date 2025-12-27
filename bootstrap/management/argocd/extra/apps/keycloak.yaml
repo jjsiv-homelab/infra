@@ -1,21 +1,21 @@
-apiVersion: argoproj.io/v1alpha1
-kind: Application
-metadata:
-  name: keycloak
-  namespace: argocd
-spec:
-  project: infrastructure
-  destination:
-    name: rpi
-    namespace: keycloak
-  source:
-    repoURL: git@github.com:jjsiv-homelab/infra.git
-    targetRevision: main
-    path: bootstrap/management/keycloak
-  syncPolicy:
-    automated:
-      selfHeal: true
-      prune: true
-    syncOptions:
-      - ServerSideApply=true
-      - CreateNamespace=true
+#apiVersion: argoproj.io/v1alpha1
+#kind: Application
+#metadata:
+#  name: keycloak
+#  namespace: argocd
+#spec:
+#  project: infrastructure
+#  destination:
+#    name: rpi
+#    namespace: keycloak
+#  source:
+#    repoURL: git@github.com:jjsiv-homelab/infra.git
+#    targetRevision: main
+#    path: bootstrap/management/keycloak
+#  syncPolicy:
+#    automated:
+#      selfHeal: true
+#      prune: true
+#    syncOptions:
+#      - ServerSideApply=true
+#      - CreateNamespace=true
