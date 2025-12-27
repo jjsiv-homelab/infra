@@ -12,6 +12,7 @@ configs:
     kustomize.buildOptions: "--enable-helm"
 
   params:
+    application.namespaces: "tenant-*, argocd"
     server.insecure: true
     applicationsetcontroller.enable.progressive.syncs: true
     commitserver.log.level: debug
