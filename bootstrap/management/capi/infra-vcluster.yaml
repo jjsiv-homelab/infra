@@ -12,8 +12,8 @@ metadata:
   namespace: vcluster-infrastructure-system
   annotations:
     "argocd.argoproj.io/sync-wave": "2"
-  spec:
-    deployment:
-      containers:
-        - name: manager
-          imageUrl: ghcr.io/loft-sh/cluster-api-provider-vcluster:0.3.0-alpha.2
+spec:
+  deployment:
+    containers:
+      - name: manager
+        imageUrl: ghcr.io/loft-sh/cluster-api-provider-vcluster:0.3.0-alpha.2
