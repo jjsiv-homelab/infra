@@ -16,4 +16,4 @@ spec:
   deployment:
     containers:
       - name: manager
-        imageUrl: ghcr.io/loft-sh/cluster-api-provider-vcluster:0.3.0-alpha.2
+        imageUrl: ghcr.io/loft-sh/cluster-api-provider-vcluster:0.3.0-alpha.0
