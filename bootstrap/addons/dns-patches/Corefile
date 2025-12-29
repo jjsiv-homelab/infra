@@ -14,7 +14,6 @@
         192.168.55.236 rpi-worker1
         192.168.55.237 rpi-worker2
         192.168.55.238 rpi-worker3
-        192.168.55.20 proxmox.homelab.local
         fallthrough
     }
     kubernetes cluster.local in-addr.arpa ip6.arpa {
@@ -32,4 +31,14 @@
     loop
     reload
     loadbalance
+}
+
+homelab.local:53 {
+    errors
+    cache 30
+    template IN A homelab.local {
+        match .*\.homelab\.local
+        answer "{{ .Name }} 60 IN A 10.21.37.10"
+        fallthrough
+    }
 }
