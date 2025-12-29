@@ -1,3 +1,13 @@
+homelab.local:53 {
+    errors
+    cache 30
+    template IN A homelab.local {
+        match .*\.homelab\.local
+        answer "{{ .Name }} 60 IN A 10.21.37.10"
+        fallthrough
+    }
+}
+
 .:53 {
     errors
     health {
@@ -31,14 +41,4 @@
     loop
     reload
     loadbalance
-}
-
-homelab.local:53 {
-    errors
-    cache 30
-    template IN A homelab.local {
-        match .*\.homelab\.local
-        answer "{{ .Name }} 60 IN A 10.21.37.10"
-        fallthrough
-    }
 }
