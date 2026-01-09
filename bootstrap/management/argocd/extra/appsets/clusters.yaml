@@ -24,7 +24,7 @@ spec:
       sources:
         - repoURL: https://jjsiv-homelab.github.io/infra-helm-charts
           chart: cluster
-          targetRevision: 0.*
+          targetRevision: 1.*
           helm:
             ignoreMissingValueFiles: true
             releaseName: "{{ .path.basename }}"
