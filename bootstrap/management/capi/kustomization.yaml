@@ -7,6 +7,5 @@ resources:
   - ./bootstrap-kubeadm.yaml
   - ./bootstrap-talos.yaml
   - ./infra-proxmox.yaml
-  - ./infra-vcluster.yaml
   - ./ipam-in-cluster.yaml
   - ./cp-talos.yaml
