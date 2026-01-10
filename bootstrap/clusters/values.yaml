@@ -1,6 +1,11 @@
 addons:
-  cert-manager: true
-  cilium: true
-  metrics-server: true
-  kube-prometheus-stack: true
-  grafana-operator: false
+  cert-manager:
+    enabled: true
+  cilium:
+    enabled: true
+  metrics-server:
+    enabled: true
+  kube-prometheus-stack:
+    enabled: true
+  grafana-operator:
+    enabled: false
