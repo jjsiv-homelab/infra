@@ -14,7 +14,7 @@
         192.168.55.236 rpi-worker1
         192.168.55.237 rpi-worker2
         192.168.55.238 rpi-worker3
-        192.168.55.20 proxmox.homelab.local
+        192.168.55.20 proxmox.local
         fallthrough
     }
     kubernetes cluster.local in-addr.arpa ip6.arpa {
