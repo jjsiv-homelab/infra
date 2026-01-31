@@ -1,0 +1,44 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: talos-ccm
+  namespace: argocd
+spec:
+  goTemplate: true
+  syncPolicy:
+    preserveResourcesOnDeletion: true
+  generators:
+    - clusters:
+        selector:
+          matchLabels:
+            addon/talos-ccm: "true"
+  template:
+    metadata:
+      name: "talos-ccm-{{ .name }}"
+      labels:
+        addon: "talos-ccm"
+    spec:
+      project: infrastructure
+      destination:
+        name: "{{ .name }}"
+        namespace: kube-system
+      sources:
+        - repoURL: ghcr.io/siderolabs/charts
+          chart: talos-cloud-controller-manager
+          targetRevision: 0.5.*
+          helm:
+            ignoreMissingValueFiles: true
+            releaseName: talos-cloud-controller-manager
+            valueFiles:
+              - $values/bootstrap/addons/talos-cloud-controller-manager/values.yaml
+              - $values/bootstrap/addons/talos-cloud-controller-manager/{{ .name }}/values.yaml
+        - repoURL: git@github.com:jjsiv-homelab/infra.git
+          targetRevision: main
+          ref: values
+      syncPolicy:
+        automated:
+          selfHeal: true
+          prune: true
+        syncOptions:
+          - ServerSideApply=true
+          - CreateNamespace=true
