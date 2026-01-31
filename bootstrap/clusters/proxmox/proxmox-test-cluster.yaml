@@ -1,0 +1,10 @@
+name: "proxmox-test-cluster"
+server: "https://192.168.55.150:6443"
+
+argocdConnections:
+  central:
+    config:
+      kubeconfigSecretRef:
+        name: proxmox-test-cluster-kubeconfig
+        namespace: proxmox-test-cluster
+        key: value
