@@ -11,11 +11,20 @@ spec:
     - git:
         repoURL: git@github.com:jjsiv-homelab/infra.git
         revision: HEAD
-        directories:
-          - path: bootstrap/clusters/*
+        files:
+          - path: bootstrap/clusters/common.yaml
+            exclude: true
+          - path: bootstrap/clusters/*/common.yaml
+            exclude: true
+          - path: bootstrap/clusters/*/*.yaml
+        values:
+          infrastructure: "{{ index .path.segments 2 }}"
+          cluster: "{{ index .path.segments 3 | trimSuffix '.yaml' }}"
   template:
     metadata:
-      name: "cluster-{{ .path.basename }}"
+      name: "cluster-{{ .values.cluster }}"
+      labels:
+        infrastructure: "{{ .values.infrastructure }}"
     spec:
       project: infrastructure
       destination:
@@ -27,10 +36,11 @@ spec:
           targetRevision: 1.*
           helm:
             ignoreMissingValueFiles: true
-            releaseName: "{{ .path.basename }}"
+            releaseName: "{{ .values.cluster }}"
             valueFiles:
-              - $values/bootstrap/clusters/values.yaml
-              - $values/{{ .path.path }}/values.yaml
+              - $values/bootstrap/clusters/common.yaml
+              - $values/bootstrap/clusters/{{ .values.infrastructure }}/common.yaml
+              - $values/bootstrap/clusters/{{ .values.infrastructure }}/{{ .values.cluster }}.yaml
         - repoURL: git@github.com:jjsiv-homelab/infra.git
           targetRevision: main
           ref: values

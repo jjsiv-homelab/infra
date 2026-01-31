@@ -1,3 +1,5 @@
+# yaml-language-server: $schema=https://github.com/jjsiv-homelab/infra-helm-charts/raw/refs/heads/main/cluster/values.schema.json
+
 addons:
   cert-manager:
     enabled: true
