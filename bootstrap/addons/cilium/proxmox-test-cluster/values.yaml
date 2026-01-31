@@ -1,6 +1,6 @@
 cluster:
-  name: rpi
-  id: 1
+  name: proxmox-test-cluster
+  id: 2
 
 k8sServiceHost: 192.168.55.150
 
