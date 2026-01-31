@@ -1,0 +1,10 @@
+cluster:
+  name: rpi
+  id: 1
+
+k8sServiceHost: 192.168.55.150
+
+ipam:
+  operator:
+    clusterPoolIPv4PodCIDRList: ["10.101.0.0/16"]
+    clusterPoolIPv4MaskSize: 24
