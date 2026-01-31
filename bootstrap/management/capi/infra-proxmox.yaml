@@ -16,7 +16,6 @@ spec:
   version: v0.7.5
   configSecret:
     name: proxmox-creds
-    namespace: proxmox-infrastructure-system
   deployment:
     containers:
       - name: manager
