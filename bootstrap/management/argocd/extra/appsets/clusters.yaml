@@ -19,7 +19,7 @@ spec:
           - path: bootstrap/clusters/*/*.yaml
         values:
           infrastructure: "{{ index .path.segments 2 }}"
-          cluster: "{{ index .path.segments 3 | trimSuffix '.yaml' }}"
+          cluster: '{{ .path.filename | trimSuffix ".yaml" }}'
   template:
     metadata:
       name: "cluster-{{ .values.cluster }}"
