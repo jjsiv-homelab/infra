@@ -12,3 +12,5 @@ metadata:
   namespace: capi-talos-control-plane-system
   annotations:
     argocd.argoproj.io/sync-wave: "2"
+spec:
+  version: v0.5.12

@@ -12,3 +12,5 @@ metadata:
   namespace: capi-talos-bootstrap-system
   annotations:
     "argocd.argoproj.io/sync-wave": "2"
+spec:
+  version: v0.6.11
