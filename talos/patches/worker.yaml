@@ -3,5 +3,3 @@ debug: false
 persist: true
 machine:
   type: worker
-  nodeLabels:
-    node-role.kubernetes.io/worker: ""

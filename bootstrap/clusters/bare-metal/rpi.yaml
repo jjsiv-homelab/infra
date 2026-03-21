@@ -12,3 +12,5 @@ argocdConnections:
 addons:
   grafana-operator:
     enabled: true
+  kagent:
+    enabled: true

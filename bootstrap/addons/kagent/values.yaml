@@ -1,0 +1,56 @@
+database:
+  postgres:
+    url: postgres://kagent:kagent@postgres.svc.cluster.local:5432/postgres
+    vectorEnabled: false
+
+providers:
+  default: openAI
+  openAI:
+    provider: OpenAI
+    model: "gpt-4.1-mini"
+    apiKeySecretRef: openai-api-key
+    apiKeySecretKey: OPENAI_API_KEY
+  ollama:
+  anthropic:
+  azureOpenAI:
+  gemini:
+
+kmcp:
+  enabled: false
+kagent-tools:
+  enabled: true
+
+agents:
+  k8s-agent:
+    enabled: true
+    resources:
+      requests:
+        cpu: 100m
+        memory: 256Mi
+      limits:
+        cpu: 1000m
+        memory: 1Gi
+  kgateway-agent:
+    enabled: false
+  istio-agent:
+    enabled: false
+  promql-agent:
+    enabled: false
+  observability-agent:
+    enabled: false
+  argo-rollouts-agent:
+    enabled: false
+  helm-agent:
+    enabled: false
+  cilium-policy-agent:
+    enabled: false
+  cilium-manager-agent:
+    enabled: false
+  cilium-debug-agent:
+    enabled: false
+
+tools:
+  grafana-mcp:
+    enabled: false
+  querydoc:
+    enabled: false
