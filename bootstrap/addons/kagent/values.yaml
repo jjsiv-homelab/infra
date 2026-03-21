@@ -1,6 +1,6 @@
 database:
   postgres:
-    url: postgres://kagent:kagent@postgres.svc.cluster.local:5432/postgres
+    url: postgres://kagent:kagent@postgres.kagent.svc.cluster.local:5432/postgres
     vectorEnabled: false
 
 providers:
