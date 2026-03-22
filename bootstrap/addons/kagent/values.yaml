@@ -27,6 +27,7 @@ kagent-tools:
 agents:
   k8s-agent:
     enabled: true
+    modelConfigRef: anthropic-claude-sonnet-4.6
     resources:
       requests:
         cpu: 100m
