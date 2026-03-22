@@ -4,12 +4,8 @@ database:
     vectorEnabled: false
 
 providers:
-  default: openAI
+  default: anthropic
   openAI:
-    provider: OpenAI
-    model: "gpt-4.1-mini"
-    apiKeySecretRef: openai-api-key
-    apiKeySecretKey: OPENAI_API_KEY
   ollama:
   anthropic:
     provider: Anthropic
