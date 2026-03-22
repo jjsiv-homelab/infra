@@ -12,6 +12,10 @@ providers:
     apiKeySecretKey: OPENAI_API_KEY
   ollama:
   anthropic:
+    provider: Anthropic
+    model: "claude-sonnet-4.6"
+    apiKeySecretRef: anthropic-api-key
+    apiKeySecretKey: API_KEY
   azureOpenAI:
   gemini:
 
