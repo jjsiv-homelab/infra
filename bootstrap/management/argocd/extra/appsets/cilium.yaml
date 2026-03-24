@@ -25,7 +25,7 @@ spec:
       sources:
         - repoURL: https://helm.cilium.io
           chart: cilium
-          targetRevision: 1.18.*
+          targetRevision: 1.19.*
           helm:
             ignoreMissingValueFiles: true
             releaseName: cilium
