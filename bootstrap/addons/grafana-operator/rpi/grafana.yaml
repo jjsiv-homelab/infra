@@ -53,17 +53,17 @@ spec:
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDatasource
 metadata:
-  name: prometheus
+  name: victoriametrics
   namespace: grafana
 spec:
   instanceSelector:
     matchLabels:
       grafana: "rpi"
   datasource:
-    name: prometheus-rpi
+    name: victoriametrics
     type: prometheus
     access: proxy
-    url: http://kube-prometheus-stack-prometheus.monitoring.svc.cluster.local:9090
+    url: http://192.168.55.10:8428
     isDefault: true
     jsonData:
       "tlsSkipVerify": true
