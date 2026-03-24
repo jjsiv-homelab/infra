@@ -8,6 +8,6 @@ addons:
   metrics-server:
     enabled: true
   kube-prometheus-stack:
-    enabled: true
+    enabled: false
   grafana-operator:
     enabled: false
