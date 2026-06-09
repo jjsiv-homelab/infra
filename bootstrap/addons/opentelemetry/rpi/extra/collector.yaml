@@ -42,5 +42,5 @@ spec:
     service:
       pipelines:
         logs:
-          receivers: [filelog, otlp]
+          receivers: [file_log, otlp]
           exporters: [otlphttp]
