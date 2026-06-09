@@ -19,9 +19,20 @@ spec:
         path: /var/log/pods
   config:
     receivers:
-      file_log:
+      file_log/argocd:
+        include:
+          - /var/log/pods/argocd_*/*/*.log
+        start_at: end
+        include_file_path: true
+        include_file_name: false
+        operators:
+          - type: container
+            id: container-parser
+      file_log/default:
         include:
           - /var/log/pods/*/*/*.log
+        exclude:
+          - /var/log/pods/argocd_*/*/*.log
         start_at: end
         include_file_path: true
         include_file_name: false
@@ -36,11 +47,18 @@ spec:
             endpoint: 0.0.0.0:4318
 
     exporters:
-      otlphttp:
+      otlphttp/default:
         logs_endpoint: http://192.168.55.10:9428/insert/opentelemetry/v1/logs
-
+      otlphttp/argocd:
+        logs_endpoint: http://192.168.55.10:9428/insert/opentelemetry/v1/logs
+        headers:
+          AccountID: "1"
+          ProjectID: "1"
     service:
       pipelines:
-        logs:
-          receivers: [file_log, otlp]
-          exporters: [otlphttp]
+        logs/argocd:
+          receivers: [file_log/argocd]
+          exporters: [otlphttp/argocd]
+        logs/default:
+          receivers: [file_log/default, otlp]
+          exporters: [otlphttp/default]
