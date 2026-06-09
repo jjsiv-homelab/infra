@@ -1,0 +1,49 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: opentelemetry
+  namespace: argocd
+spec:
+  goTemplate: true
+  syncPolicy:
+    preserveResourcesOnDeletion: true
+  generators:
+    - clusters:
+        selector:
+          matchLabels:
+            addon/opentelemetry: "true"
+  template:
+    metadata:
+      name: "opentelemetry-{{ .name }}"
+      labels:
+        addon: "opentelemetry"
+    spec:
+      project: infrastructure
+      destination:
+        name: "{{ .name }}"
+        namespace: kube-system
+      sources:
+        - repoURL: https://open-telemetry.github.io/opentelemetry-helm-charts
+          chart: opentelemetry-operator
+          targetRevision: 0.114.*
+          helm:
+            ignoreMissingValueFiles: true
+            releaseName: opentelemetry-operator
+            valueFiles:
+              - $values/bootstrap/addons/opentelemetry/values.yaml
+              - $values/bootstrap/addons/opentelemetry/{{ .name }}/values.yaml
+        - repoURL: git@github.com:jjsiv-homelab/infra.git
+          targetRevision: main
+          ref: values
+        - repoURL: git@github.com:jjsiv-homelab/infra.git
+          targetRevision: main
+          path: bootstrap/addons/opentelemetry/{{ .name }}
+          directory:
+            recurse: true
+      syncPolicy:
+        automated:
+          selfHeal: true
+          prune: true
+        syncOptions:
+          - ServerSideApply=true
+          - CreateNamespace=true

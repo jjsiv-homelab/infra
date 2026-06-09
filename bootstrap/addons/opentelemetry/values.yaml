@@ -1,0 +1,4 @@
+manager:
+  autoInstrumentation:
+    go:
+      enabled: true
