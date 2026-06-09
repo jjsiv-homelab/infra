@@ -27,9 +27,9 @@ spec:
         include_file_name: false
         operators:
           - type: container
-            id: container-parser
-          - type: severity_parser
-            parse_from: body.level
+          - type: json_parser
+            severity:
+              parse_from: attributes.level
       file_log/default:
         include:
           - /var/log/pods/*/*/*.log
