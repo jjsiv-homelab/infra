@@ -5,9 +5,21 @@ metadata:
   namespace: monitoring
 spec:
   mode: daemonset
+  tolerations:
+    - key: node-role.kubernetes.io/control-plane
+      operator: Exists
+      effect: NoSchedule
+  volumeMounts:
+    - name: varlogpods
+      mountPath: /var/log/pods
+      readOnly: true
+  volumes:
+    - name: varlogpods
+      hostPath:
+        path: /var/log/pods
   config:
     receivers:
-      filelog:
+      file_log:
         include:
           - /var/log/pods/*/*/*.log
         start_at: end
