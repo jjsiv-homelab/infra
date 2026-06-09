@@ -28,6 +28,8 @@ spec:
         operators:
           - type: container
             id: container-parser
+          - type: severity_parser
+            parse_from: body.level
       file_log/default:
         include:
           - /var/log/pods/*/*/*.log
