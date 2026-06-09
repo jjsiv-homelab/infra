@@ -1,0 +1,34 @@
+apiVersion: opentelemetry.io/v1beta1
+kind: OpenTelemetryCollector
+metadata:
+  name: opentelemetry-collector
+  namespace: monitoring
+spec:
+  mode: daemonset
+  config:
+    receivers:
+      filelog:
+        include:
+          - /var/log/pods/*/*/*.log
+        start_at: end
+        include_file_path: true
+        include_file_name: false
+        operators:
+          - type: container
+            id: container-parser
+      otlp:
+        protocols:
+          grpc:
+            endpoint: 0.0.0.0:4317
+          http:
+            endpoint: 0.0.0.0:4318
+
+    exporters:
+      otlphttp:
+        logs_endpoint: http://192.168.55.10:9428/insert/opentelemetry/v1/logs
+
+    service:
+      pipelines:
+        logs:
+          receivers: [filelog, otlp]
+          exporters: [otlphttp]
