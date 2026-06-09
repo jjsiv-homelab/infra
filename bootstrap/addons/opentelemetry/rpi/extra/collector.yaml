@@ -41,11 +41,11 @@ spec:
         include_file_name: false
         operators:
           - type: container
-          - type: json_parser
-          - type: key_value_parser
-          - type: severity_parser
-            parse_from: attributes.level
-            if: attributes.level != nil
+          #- type: json_parser
+          #- type: key_value_parser
+          #- type: severity_parser
+          #  parse_from: attributes.level
+          #  if: attributes.level != nil
       otlp:
         protocols:
           grpc:
