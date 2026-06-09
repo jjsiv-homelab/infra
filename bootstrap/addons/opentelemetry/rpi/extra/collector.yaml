@@ -23,7 +23,7 @@ spec:
         include:
           - /var/log/pods/argocd_*/*/*.log
         start_at: end
-        include_file_path: true
+        include_file_path: false
         include_file_name: false
         operators:
           - type: container
@@ -37,10 +37,15 @@ spec:
         exclude:
           - /var/log/pods/argocd_*/*/*.log
         start_at: end
-        include_file_path: true
+        include_file_path: false
         include_file_name: false
         operators:
           - type: container
+          - type: json_parser
+          - type: key_value_parser
+          - type: severity_parser
+            parse_from: attributes.level
+            if: attributes.level != nil
       otlp:
         protocols:
           grpc:
