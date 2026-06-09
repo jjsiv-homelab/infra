@@ -28,8 +28,9 @@ spec:
         operators:
           - type: container
           - type: json_parser
-            severity:
-              parse_from: body.level
+          - type: severity_parser
+            parse_from: attributes.level
+            if: attributes.level != nil
       file_log/default:
         include:
           - /var/log/pods/*/*/*.log
@@ -40,7 +41,6 @@ spec:
         include_file_name: false
         operators:
           - type: container
-            id: container-parser
       otlp:
         protocols:
           grpc:
