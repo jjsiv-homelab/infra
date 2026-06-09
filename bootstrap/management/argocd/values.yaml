@@ -17,6 +17,13 @@ configs:
     applicationsetcontroller.enable.progressive.syncs: true
     commitserver.log.level: debug
     hydrator.enabled: "true"
+    controller.log.format: "json"
+    server.log.format: "json"
+    reposerver.log.format: "json"
+    commitserver.log.format: "json"
+    dexserver.log.format: "json"
+    applicationsetcontroller.log.format: "json"
+    notificationscontroller.log.format: "json"
 
   rbac:
     policy.csv: |
