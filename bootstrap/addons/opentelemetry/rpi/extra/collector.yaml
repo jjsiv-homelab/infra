@@ -1,7 +1,7 @@
 apiVersion: opentelemetry.io/v1beta1
 kind: OpenTelemetryCollector
 metadata:
-  name: opentelemetry-collector
+  name: opentelemetry
   namespace: monitoring
 spec:
   mode: daemonset
@@ -19,33 +19,38 @@ spec:
         path: /var/log/pods
   config:
     receivers:
-      file_log/argocd:
-        include:
-          - /var/log/pods/argocd_*/*/*.log
-        start_at: end
-        include_file_path: true
-        include_file_name: false
-        operators:
-          - type: container
-          - type: json_parser
-          - type: severity_parser
-            parse_from: attributes.level
-            if: attributes.level != nil
+      #file_log/argocd:
+      #  include:
+      #    - /var/log/pods/argocd_*/*/*.log
+      #  start_at: end
+      #  include_file_path: true
+      #  include_file_name: false
+      #  operators:
+      #    - type: container
+      #    - type: json_parser
+      #    - type: severity_parser
+      #      parse_from: attributes.level
+      #      if: attributes.level != nil
       file_log/default:
         include:
           - /var/log/pods/*/*/*.log
-        exclude:
-          - /var/log/pods/argocd_*/*/*.log
         start_at: end
         include_file_path: true
         include_file_name: false
         operators:
           - type: container
-          #- type: json_parser
-          #- type: key_value_parser
-          #- type: severity_parser
-          #  parse_from: attributes.level
-          #  if: attributes.level != nil
+          - type: recombine
+            combine_field: body
+            is_first_entry: 'body matches "^[^\\s]"'
+            source_identifier: attributes["log.file.path"]
+          - type: json_parser
+            if: 'body matches "^\\s*\\{"'
+          - type: key_value_parser
+            # Skip klog
+            if: 'body matches "[a-zA-Z_]+=\\S+" and body not matches "^[IWEF]\\d{4}\\s+\\d{2}:\\d{2}:\\d{2}"'
+          - type: severity_parser
+            parse_from: attributes.level
+            if: attributes.level != nil
       otlp:
         protocols:
           grpc:
@@ -53,19 +58,44 @@ spec:
           http:
             endpoint: 0.0.0.0:4318
 
+    processors:
+      k8sattributes:
+        extract:
+          annotations:
+            - key: homelab.local/collect-logs
+              from: pod
+              tag_name: k8s.pod.annotations.collect-logs
+            - key: homelab.local/collect-logs
+              from: namespace
+              tag_name: k8s.namespace.annotations.collect-logs
+
+      filter/require_opt_in:
+        error_mode: ignore
+        log_conditions:
+          - 'resource.attributes["k8s.pod.annotations.collect-logs"] != "true" or resource.attributes["k8s.namespace.annotations.collect-logs"] != "true"'
+
     exporters:
       otlphttp/default:
         logs_endpoint: http://192.168.55.10:9428/insert/opentelemetry/v1/logs
-      otlphttp/argocd:
-        logs_endpoint: http://192.168.55.10:9428/insert/opentelemetry/v1/logs
-        headers:
-          AccountID: "1"
-          ProjectID: "1"
+      #otlphttp/argocd:
+      #  logs_endpoint: http://192.168.55.10:9428/insert/opentelemetry/v1/logs
+      #  headers:
+      #    AccountID: "1"
+      #    ProjectID: "1"
     service:
+      telemetry:
+        logs:
+          encoding: json
       pipelines:
-        logs/argocd:
-          receivers: [file_log/argocd]
-          exporters: [otlphttp/argocd]
+        #logs/argocd:
+        #  receivers: [file_log/argocd]
+        #  exporters: [otlphttp/argocd]
         logs/default:
-          receivers: [file_log/default, otlp]
-          exporters: [otlphttp/default]
+          receivers:
+            - file_log/default
+            - otlp
+          processors:
+            - k8sattributes
+            - filter/require_opt_in
+          exporters:
+            - otlphttp/default

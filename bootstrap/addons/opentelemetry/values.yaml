@@ -1,4 +1,5 @@
 manager:
+  createRbacPermissions: true
   autoInstrumentation:
     go:
       enabled: true
