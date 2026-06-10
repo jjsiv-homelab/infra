@@ -27,6 +27,8 @@ spec:
                     secretKeyRef:
                       key: GF_SECURITY_ADMIN_PASSWORD
                       name: credentials
+                - name: GF_INSTALL_PLUGINS
+                  value: "victoriametrics-logs-datasource"
   ingress:
     spec:
       tls:
