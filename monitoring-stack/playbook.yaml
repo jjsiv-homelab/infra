@@ -1,0 +1,63 @@
+- name: Deploy VictoriaMetrics
+  hosts: localhost
+  become: true
+
+  pre_tasks:
+    - name: Create shared directory
+      ansible.builtin.file:
+        state: directory
+        path: "/var/lib/victoria"
+        mode: 0777
+
+  tasks:
+    - name: Install VictoriaMetrics
+      block:
+        - name: Create scrape config
+          ansible.builtin.copy:
+            dest: "/var/lib/victoria/promscrape.yaml"
+            force: true
+            mode: 0644
+            content: |
+              scrape_configs:
+                - job_name: victorialogs
+                  static_configs:
+                    - targets:
+                        - "192.168.55.10:9428"
+                - job_name: victoriatraces
+                  static_configs:
+                    - targets:
+                        - "192.168.55.10:10428"
+
+        - name: Install VictoriaMetrics
+          ansible.builtin.include_role:
+            name: victoriametrics.cluster.vmsingle
+          vars:
+            victoriametrics_service_args:
+              storageDataPath: "/var/lib/victoria-metrics/"
+              selfScrapeInterval: "30s"
+              retentionPeriod: "1"
+              maxConcurrentInserts: 32
+              "search.maxUniqueTimeseries": "900000"
+              "promscrape.config": "/var/lib/victoria/promscrape.yaml"
+              dedup.minScrapeInterval: "15s"
+
+    - name: Install VictoriaLogs
+      block:
+        - name: Install VictoriaLogs
+          ansible.builtin.include_role:
+            name: victoriametrics.cluster.vlsingle
+          vars:
+            victorialogs_service_args:
+              storageDataPath: "/var/lib/victoria-logs/"
+              retention.maxDiskSpaceUsageBytes: "20GB"
+
+    - name: Install VictoriaTraces
+      block:
+        - name: Install VictoriaTraces
+          ansible.builtin.include_role:
+            name: victoriametrics.cluster.vtsingle
+          vars:
+            victoriatraces_version: "v0.9.2"
+            victoriatraces_service_args:
+              storageDataPath: "/var/lib/victoria-traces/"
+              retention.maxDiskSpaceUsageBytes: "20GB"

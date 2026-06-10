@@ -1,0 +1,6 @@
+collections:
+  - name: victoriametrics.cluster
+    version: "2.50.5"
+
+  - name: grafana.grafana
+    version: "6.1.0"

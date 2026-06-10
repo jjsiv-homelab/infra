@@ -1,0 +1,6 @@
+remoteWrite:
+  - url: http://192.168.55.10:8428/api/v1/write
+    urlRelabelConfig:
+      - action: replace
+        source_labels: [kube_cluster]
+        regex: "rpi"

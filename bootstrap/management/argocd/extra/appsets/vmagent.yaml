@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: kube-prometheus-stack
+  name: vmagent
   namespace: argocd
 spec:
   goTemplate: true
@@ -11,27 +11,27 @@ spec:
     - clusters:
         selector:
           matchLabels:
-            addon/kube-prometheus-stack: "true"
+            addon/vmagent: "true"
   template:
     metadata:
-      name: "kube-prometheus-stack-{{ .name }}"
+      name: "vmagent-{{ .name }}"
       labels:
-        addon: "kube-prometheus-stack"
+        addon: "vmagent"
     spec:
       project: infrastructure
       destination:
         name: "{{ .name }}"
         namespace: monitoring
       sources:
-        - repoURL: https://prometheus-community.github.io/helm-charts
-          chart: kube-prometheus-stack
-          targetRevision: 79.*
+        - repoURL: https://victoriametrics.github.io/helm-charts
+          chart: victoria-metrics-agent
+          targetRevision: 0.41.*
           helm:
             ignoreMissingValueFiles: true
-            releaseName: kube-prometheus-stack
+            releaseName: victoria-metrics-agent
             valueFiles:
-              - $values/bootstrap/addons/kube-prometheus-stack/values.yaml
-              - $values/bootstrap/addons/kube-prometheus-stack/{{ .name }}/values.yaml
+              - $values/bootstrap/addons/vmagent/values.yaml
+              - $values/bootstrap/addons/vmagent/{{ .name }}/values.yaml
         - repoURL: git@github.com:jjsiv-homelab/infra.git
           targetRevision: main
           ref: values
@@ -42,7 +42,3 @@ spec:
         syncOptions:
           - ServerSideApply=true
           - CreateNamespace=true
-        managedNamespaceMetadata:
-          labels:
-            pod-security.kubernetes.io/enforce: privileged
-            pod-security.kubernetes.io/enforce-version: latest
