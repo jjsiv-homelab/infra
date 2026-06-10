@@ -41,9 +41,9 @@ spec:
           directory:
             recurse: true
       syncPolicy:
-        automated:
-          selfHeal: true
-          prune: true
+        #automated:
+        #  selfHeal: true
+        #  prune: true
         syncOptions:
           - ServerSideApply=true
           - CreateNamespace=true
