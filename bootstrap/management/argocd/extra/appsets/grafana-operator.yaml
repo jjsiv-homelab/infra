@@ -6,7 +6,7 @@ metadata:
 spec:
   goTemplate: true
   syncPolicy:
-    preserveResourcesOnDeletion: true
+    preserveResourcesOnDeletion: false
   generators:
     - clusters:
         selector:
@@ -21,7 +21,7 @@ spec:
       project: infrastructure
       destination:
         name: "{{ .name }}"
-        namespace: grafana-operator
+        namespace: monitoring
       sources:
         - repoURL: ghcr.io/grafana/helm-charts
           chart: grafana-operator
