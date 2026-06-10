@@ -1,6 +1,4 @@
-remoteWrite:
-  - url: http://192.168.55.10:8428/api/v1/write
-    urlRelabelConfig:
-      - action: replace
-        target_label: kube_cluster
-        regex: "rpi"
+config:
+  global:
+    external_labels:
+      kube_cluster: rpi
