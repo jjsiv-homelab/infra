@@ -12,6 +12,7 @@ spec:
         selector:
           matchLabels:
             addon/grafana: "true"
+            addon/grafana-operator: "true"
   template:
     metadata:
       name: "grafana-{{ .name }}"
