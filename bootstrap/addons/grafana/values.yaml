@@ -1,0 +1,5 @@
+grafana:
+  spec:
+    config:
+      log:
+        mode: console

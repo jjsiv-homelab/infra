@@ -1,0 +1,56 @@
+grafana:
+  spec:
+    deployment:
+      spec:
+        template:
+          spec:
+            containers:
+              - name: grafana
+                env:
+                  - name: GF_SECURITY_ADMIN_USER
+                    value: admin
+                  - name: GF_SECURITY_ADMIN_PASSWORD
+                    value: admin
+                  - name: GF_INSTALL_PLUGINS
+                    value: "victoriametrics-logs-datasource"
+    ingress:
+      spec:
+        tls:
+          - hosts:
+              - grafana.homelab.local
+        ingressClassName: cilium
+        rules:
+          - host: grafana.homelab.local
+            http:
+              paths:
+                - backend:
+                    service:
+                      name: grafana-service
+                      port:
+                        number: 3000
+                  path: /
+                  pathType: Prefix
+
+datasources:
+  victoriametrics:
+    type: prometheus
+    url: http://192.168.55.10:8428
+    isDefault: true
+  victorialogs:
+    type: victoriametrics-logs-datasource
+    url: http://192.168.55.10:9428
+
+dashboards:
+  - folder: Monitoring
+    imports:
+      - name: victorialogs-single
+        id: 22084
+      - name: victorialogs-internal-state
+        id: 24585
+      - name: victoriametrics-single
+        id: 10229
+      - name: victoriametrics-vmagent
+        id: 12683
+      - name: victoriatraces-single
+        id: 24136
+  - folder: Networking

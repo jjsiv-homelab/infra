@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: grafana-operator
+  name: grafana
   namespace: argocd
 spec:
   goTemplate: true
@@ -11,27 +11,27 @@ spec:
     - clusters:
         selector:
           matchLabels:
-            addon/grafana-operator: "true"
+            addon/grafana: "true"
   template:
     metadata:
-      name: "grafana-operator-{{ .name }}"
+      name: "grafana-{{ .name }}"
       labels:
-        addon: "grafana-operator"
+        addon: "grafana"
     spec:
       project: infrastructure
       destination:
         name: "{{ .name }}"
         namespace: monitoring
       sources:
-        - repoURL: ghcr.io/grafana/helm-charts
-          chart: grafana-operator
-          targetRevision: v5.24.*
+        - repoURL: https://jjsiv-homelab.github.io/infra-helm-charts
+          chart: grafana
+          targetRevision: 0.*
           helm:
             ignoreMissingValueFiles: true
-            releaseName: grafana-operator
+            releaseName: grafana
             valueFiles:
-              - $values/bootstrap/addons/grafana-operator/values.yaml
-              - $values/bootstrap/addons/grafana-operator/{{ .name }}/values.yaml
+              - $values/bootstrap/addons/grafana/values.yaml
+              - $values/bootstrap/addons/grafana/{{ .name }}/values.yaml
         - repoURL: git@github.com:jjsiv-homelab/infra.git
           targetRevision: main
           ref: values
