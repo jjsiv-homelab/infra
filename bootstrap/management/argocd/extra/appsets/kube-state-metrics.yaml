@@ -1,0 +1,45 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: kube-state-metrics
+  namespace: argocd
+spec:
+  goTemplate: true
+  syncPolicy:
+    preserveResourcesOnDeletion: false
+  generators:
+    - clusters:
+        selector:
+          matchLabels:
+            addon/kube-state-metrics: "true"
+  template:
+    metadata:
+      name: "kube-state-metrics-{{ .name }}"
+      labels:
+        addon: "kube-state-metrics"
+        stack: "monitoring"
+    spec:
+      project: infrastructure
+      destination:
+        name: "{{ .name }}"
+        namespace: monitoring
+      sources:
+        - repoURL: https://prometheus-community.github.io/helm-charts
+          chart: kube-state-metrics
+          targetRevision: 7.*
+          helm:
+            ignoreMissingValueFiles: true
+            releaseName: kube-state-metrics
+            valueFiles:
+              - $values/bootstrap/addons/kube-state-metrics/values.yaml
+              - $values/bootstrap/addons/kube-state-metrics/{{ .name }}/values.yaml
+        - repoURL: git@github.com:jjsiv-homelab/infra.git
+          targetRevision: main
+          ref: values
+      syncPolicy:
+        automated:
+          selfHeal: true
+          prune: true
+        syncOptions:
+          - ServerSideApply=true
+          - CreateNamespace=true

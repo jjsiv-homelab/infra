@@ -7,7 +7,11 @@ addons:
     enabled: true
   metrics-server:
     enabled: true
-  kube-prometheus-stack:
-    enabled: false
-  grafana-operator:
-    enabled: false
+  kube-state-metrics:
+    enabled: true
+  node-exporter:
+    enabled: true
+  opentelemetry:
+    enabled: true
+  vmagent:
+    enabled: true

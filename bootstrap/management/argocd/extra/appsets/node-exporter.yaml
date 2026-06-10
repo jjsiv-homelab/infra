@@ -1,0 +1,45 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: node-exporter
+  namespace: argocd
+spec:
+  goTemplate: true
+  syncPolicy:
+    preserveResourcesOnDeletion: false
+  generators:
+    - clusters:
+        selector:
+          matchLabels:
+            addon/node-exporter: "true"
+  template:
+    metadata:
+      name: "node-exporter-{{ .name }}"
+      labels:
+        addon: "node-exporter"
+        stack: "monitoring"
+    spec:
+      project: infrastructure
+      destination:
+        name: "{{ .name }}"
+        namespace: monitoring
+      sources:
+        - repoURL: https://prometheus-community.github.io/helm-charts
+          chart: prometheus-node-exporter
+          targetRevision: 4.*
+          helm:
+            ignoreMissingValueFiles: true
+            releaseName: prometheus-node-exporter
+            valueFiles:
+              - $values/bootstrap/addons/node-exporter/values.yaml
+              - $values/bootstrap/addons/node-exporter/{{ .name }}/values.yaml
+        - repoURL: git@github.com:jjsiv-homelab/infra.git
+          targetRevision: main
+          ref: values
+      syncPolicy:
+        automated:
+          selfHeal: true
+          prune: true
+        syncOptions:
+          - ServerSideApply=true
+          - CreateNamespace=true

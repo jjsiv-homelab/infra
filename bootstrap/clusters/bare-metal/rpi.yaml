@@ -14,7 +14,3 @@ addons:
     enabled: true
   grafana:
     enabled: true
-  kagent:
-    enabled: false
-  opentelemetry:
-    enabled: true
