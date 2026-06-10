@@ -13,6 +13,6 @@ addons:
   grafana-operator:
     enabled: true
   kagent:
-    enabled: true
+    enabled: false
   opentelemetry:
     enabled: true
