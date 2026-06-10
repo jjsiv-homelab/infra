@@ -54,3 +54,7 @@ dashboards:
       - name: victoriatraces-single
         id: 24136
   - folder: Networking
+  - folder: Cluster
+    imports:
+      - name: node-exporter
+        id: 1860
