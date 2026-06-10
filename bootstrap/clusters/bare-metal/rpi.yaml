@@ -12,6 +12,8 @@ argocdConnections:
 addons:
   grafana-operator:
     enabled: true
+  grafana:
+    enabled: true
   kagent:
     enabled: false
   opentelemetry:
