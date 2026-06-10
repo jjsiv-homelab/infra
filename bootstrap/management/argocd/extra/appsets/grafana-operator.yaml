@@ -25,7 +25,7 @@ spec:
       sources:
         - repoURL: ghcr.io/grafana/helm-charts
           chart: grafana-operator
-          targetRevision: v5.20.*
+          targetRevision: v5.24.*
           helm:
             ignoreMissingValueFiles: true
             releaseName: grafana-operator
