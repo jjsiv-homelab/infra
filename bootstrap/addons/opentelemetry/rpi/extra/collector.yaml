@@ -64,7 +64,9 @@ spec:
 
     exporters:
       otlphttp/default:
+        metrics_endpoint: http://192.168.55.10:8428/api/v1/write
         logs_endpoint: http://192.168.55.10:9428/insert/opentelemetry/v1/logs
+        traces_endpoint: http://192.168.55.10:10428/insert/opentelemetry/v1/traces
     service:
       telemetry:
         logs:
