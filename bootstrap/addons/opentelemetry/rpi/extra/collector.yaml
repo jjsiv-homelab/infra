@@ -39,7 +39,7 @@ spec:
           - type: severity_parser
             parse_from: attributes.level
             if: attributes.level != nil
-      otlp:
+      otlp/default:
         protocols:
           grpc:
             endpoint: 0.0.0.0:4317
@@ -47,7 +47,7 @@ spec:
             endpoint: 0.0.0.0:4318
 
     processors:
-      k8sattributes:
+      k8s_attributes:
         extract:
           annotations:
             - key: homelab.local/collect-logs
@@ -63,9 +63,11 @@ spec:
           - 'resource.attributes["k8s.namespace.annotations.collect-logs"] != "true"'
 
     exporters:
-      otlphttp/default:
-        metrics_endpoint: http://192.168.55.10:8428/api/v1/write
+      otlp_http/victorialogs:
         logs_endpoint: http://192.168.55.10:9428/insert/opentelemetry/v1/logs
+      otlp_http/victoriametrics:
+        metrics_endpoint: http://192.168.55.10:8428/api/v1/write
+      otlp_http/victoriatraces:
         traces_endpoint: http://192.168.55.10:10428/insert/opentelemetry/v1/traces
     service:
       telemetry:
@@ -78,12 +80,21 @@ spec:
                     protocol: http/protobuf
                     endpoint: http://192.168.55.10:9428/insert/opentelemetry/v1/logs
       pipelines:
-        logs/default:
+        logs:
           receivers:
             - file_log/default
-            - otlp
           processors:
-            - k8sattributes
+            - k8s_attributes
             - filter/require_opt_in
           exporters:
-            - otlphttp/default
+            - otlp_http/victorialogs
+        metrics:
+          receivers:
+            - otlp/default
+          exporters:
+            - otlp_http/victoriametrics
+        traces:
+          receivers:
+            - otlp/default
+          exporters:
+            - otlp_http/victoriatraces

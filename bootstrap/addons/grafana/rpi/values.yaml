@@ -39,6 +39,12 @@ datasources:
   victorialogs:
     type: victoriametrics-logs-datasource
     url: http://192.168.55.10:9428
+  victoriatraces-jaeger:
+    type: jaeger
+    url: http://192.168.55.10:10428/select/jaeger
+  victoriatraces-tempo:
+    type: tempo
+    url: http://192.168.55.10:10428/select/tempo
 
 dashboards:
   - folder: Monitoring
