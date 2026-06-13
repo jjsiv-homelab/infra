@@ -43,13 +43,13 @@ datasources:
       otelPreset:
         enabled: true
         tracesDatasourceUid: victoriatraces-tempo
-      derivedFields:
-        matcherType: label
-        name: Trace
-        matcherRegex: trace_id
-        urlDisplayLabel: View Trace
-        datasourceUid: victoriatraces-tempo
-        url: "${__value.raw}"
+      #derivedFields:
+      #  matcherType: label
+      #  name: Trace
+      #  matcherRegex: trace_id
+      #  urlDisplayLabel: View Trace
+      #  datasourceUid: victoriatraces-tempo
+      #  url: "${__value.raw}"
   victoriatraces-jaeger:
     type: jaeger
     url: http://192.168.55.10:10428/select/jaeger
