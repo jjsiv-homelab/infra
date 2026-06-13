@@ -37,7 +37,7 @@ server:
     hostname: argocd.homelab.local
     tls: true
   certificate:
-    enabled: true
+    enabled: false
     issuer:
       kind: ClusterIssuer
       name: homelab-ca-issuer
