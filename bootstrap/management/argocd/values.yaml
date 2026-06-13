@@ -39,6 +39,7 @@ server:
   certificate:
     enabled: true
     issuer:
+      group: cert-manager.io
       kind: ClusterIssuer
       name: homelab-ca-issuer
 
