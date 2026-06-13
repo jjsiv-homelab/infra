@@ -80,12 +80,17 @@ spec:
                     protocol: http/protobuf
                     endpoint: http://192.168.55.10:9428/insert/opentelemetry/v1/logs
       pipelines:
-        logs:
+        logs/file:
           receivers:
             - file_log/default
           processors:
             - k8s_attributes
             - filter/require_opt_in
+          exporters:
+            - otlp_http/victorialogs
+        logs/otlp:
+          receivers:
+            - otlp/default
           exporters:
             - otlp_http/victorialogs
         metrics:

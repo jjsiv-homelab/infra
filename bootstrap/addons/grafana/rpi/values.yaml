@@ -45,6 +45,12 @@ datasources:
   victoriatraces-tempo:
     type: tempo
     url: http://192.168.55.10:10428/select/tempo
+    jsonData:
+      httpMethod: GET
+      traceToLogsV2:
+        datasourceUid: victorialogs
+        filterByTraceID: true
+        filterBySpanID: true
 
 dashboards:
   - folder: Monitoring
