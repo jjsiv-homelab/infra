@@ -47,7 +47,7 @@ datasources:
     url: http://192.168.55.10:10428/select/tempo
     jsonData:
       httpMethod: GET
-      traceToLogsV2:
+      tracesToLogsV2:
         datasourceUid: victorialogs
         filterByTraceID: true
         filterBySpanID: true
