@@ -61,3 +61,4 @@
             victoriatraces_service_args:
               storageDataPath: "/var/lib/victoria-traces/"
               retention.maxDiskSpaceUsageBytes: "20GB"
+              servicegraph.enableTask: "true"
