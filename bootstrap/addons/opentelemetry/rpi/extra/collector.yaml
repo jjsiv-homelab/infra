@@ -19,26 +19,6 @@ spec:
         path: /var/log/pods
   config:
     receivers:
-      file_log/default:
-        include:
-          - /var/log/pods/*/*/*.log
-        start_at: end
-        include_file_path: true
-        include_file_name: false
-        operators:
-          - type: container
-          - type: recombine
-            combine_field: body
-            is_first_entry: 'body matches "^[^\\s]"'
-            source_identifier: attributes["log.file.path"]
-          - type: json_parser
-            if: 'body matches "^\\s*\\{"'
-          - type: key_value_parser
-            # Skip klog
-            if: 'body matches "[a-zA-Z_]+=\\S+" and body not matches "^[IWEF]\\d{4}\\s+\\d{2}:\\d{2}:\\d{2}"'
-          - type: severity_parser
-            parse_from: attributes.level
-            if: attributes.level != nil
       otlp/default:
         protocols:
           grpc:
@@ -46,21 +26,17 @@ spec:
           http:
             endpoint: 0.0.0.0:4318
 
-    processors:
-      k8s_attributes:
-        extract:
-          annotations:
-            - key: homelab.local/collect-logs
-              from: pod
-              tag_name: k8s.pod.annotations.collect-logs
-            - key: homelab.local/collect-logs
-              from: namespace
-              tag_name: k8s.namespace.annotations.collect-logs
-
-      filter/require_opt_in:
-        error_mode: ignore
-        log_conditions:
-          - 'resource.attributes["k8s.namespace.annotations.collect-logs"] != "true"'
+    connectors:
+      service_graph:
+        dimensions:
+          - db.system
+          - messaging.system
+        virtual_node_peer_attributes:
+          - db.name
+          - db.system
+          - messaging.system
+          - peer.service
+        virtual_node_extra_label: true
 
     exporters:
       otlp_http/victorialogs:
@@ -69,6 +45,9 @@ spec:
         metrics_endpoint: http://192.168.55.10:8428/api/v1/write
       otlp_http/victoriatraces:
         traces_endpoint: http://192.168.55.10:10428/insert/opentelemetry/v1/traces
+      prometheus/servicegraph:
+        endpoint: 0.0.0.0:9090
+        namespace: servicegraph
     service:
       telemetry:
         logs:
@@ -80,14 +59,6 @@ spec:
                     protocol: http/protobuf
                     endpoint: http://192.168.55.10:9428/insert/opentelemetry/v1/logs
       pipelines:
-        logs/file:
-          receivers:
-            - file_log/default
-          processors:
-            - k8s_attributes
-            - filter/require_opt_in
-          exporters:
-            - otlp_http/victorialogs
         logs/otlp:
           receivers:
             - otlp/default
@@ -98,8 +69,14 @@ spec:
             - otlp/default
           exporters:
             - otlp_http/victoriametrics
+        metrics/servicegraph:
+          receivers:
+            - service_graph
+          exporters:
+            - prometheus/servicegraph
         traces:
           receivers:
             - otlp/default
           exporters:
             - otlp_http/victoriatraces
+            - service_graph

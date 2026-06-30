@@ -3,3 +3,6 @@ manager:
   autoInstrumentation:
     go:
       enabled: true
+  collectorImage:
+    repository: ghcr.io/open-telemetry/opentelemetry-collector-releases/opentelemetry-collector-k8s
+    tag: 0.155.0
