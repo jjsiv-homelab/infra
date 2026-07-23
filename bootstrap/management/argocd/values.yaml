@@ -1,7 +1,7 @@
 global:
   domain: argocd.homelab.local
   image:
-    tag: v3.5.0-rc1
+    tag: v3.5.0-rc2
 
 configs:
   cm:
