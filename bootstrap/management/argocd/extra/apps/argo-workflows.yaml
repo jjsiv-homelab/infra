@@ -7,7 +7,7 @@ spec:
   project: infrastructure
   destination:
     name: rpi
-    namespace: argocd
+    namespace: argo-workflows
   sources:
     - repoURL: https://argoproj.github.io/argo-helm
       chart: argo-workflows
