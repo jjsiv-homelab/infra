@@ -10,7 +10,7 @@ controller:
 
 server:
   authModes:
-    - client
+    - server
   logging:
     level: info
     format: "json"
