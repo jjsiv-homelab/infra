@@ -1,6 +1,8 @@
-controller:
+workflow:
   serviceAccount:
     create: true
+
+controller:
   rbac:
     accessAllSecrets: true
     writeConfigMaps: true
