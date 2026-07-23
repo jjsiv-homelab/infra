@@ -1,0 +1,25 @@
+controller:
+  rbac:
+    accessAllSecrets: true
+    writeConfigMaps: true
+  workflowNamespaces:
+    - workflows
+  logging:
+    level: info
+    format: "json"
+
+server:
+  authModes:
+    - client
+  logging:
+    level: info
+    format: "json"
+
+  ingress:
+    enabled: true
+    ingressClassName: "cilium"
+    hosts:
+      - workflows.homelab.local
+    tls:
+      - hosts:
+          - workflows.homelab.local
