@@ -1,0 +1,29 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: argo-events
+  namespace: argocd
+spec:
+  project: infrastructure
+  destination:
+    name: rpi
+    namespace: argo-workflows
+  sources:
+    - repoURL: https://argoproj.github.io/argo-helm
+      chart: argo-events
+      targetRevision: 2.4.*
+      helm:
+        ignoreMissingValueFiles: true
+        releaseName: argo-events
+        valueFiles:
+          - $values/bootstrap/management/argo-events/values.yaml
+    - repoURL: git@github.com:jjsiv-homelab/infra.git
+      targetRevision: main
+      ref: values
+  syncPolicy:
+    automated:
+      selfHeal: true
+      prune: true
+    syncOptions:
+      - ServerSideApply=true
+      - CreateNamespace=true
