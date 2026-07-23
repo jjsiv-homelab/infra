@@ -1,25 +1,21 @@
 apiVersion: opentelemetry.io/v1beta1
 kind: OpenTelemetryCollector
 metadata:
-  name: opentelemetry
+  name: servicegraph
   namespace: monitoring
 spec:
-  mode: daemonset
+  mode: statefulset
+  replicas: 1
   tolerations:
     - key: node-role.kubernetes.io/control-plane
       operator: Exists
       effect: NoSchedule
-  volumeMounts:
-    - name: varlogpods
-      mountPath: /var/log/pods
-      readOnly: true
-  volumes:
-    - name: varlogpods
-      hostPath:
-        path: /var/log/pods
+  observability:
+    metrics:
+      enableMetrics: true
   config:
     receivers:
-      otlp/default:
+      otlp:
         protocols:
           grpc:
             endpoint: 0.0.0.0:4317
@@ -29,28 +25,28 @@ spec:
     connectors:
       service_graph:
         dimensions:
-          - db.system
+          - db.system.name
           - messaging.system
         virtual_node_peer_attributes:
-          - db.name
-          - db.system
+          - db.system.name
           - messaging.system
           - peer.service
         virtual_node_extra_label: true
+        database_name_attributes:
+          - db.namespace
+          - db.name
 
     exporters:
-      otlp_http/victorialogs:
-        logs_endpoint: http://192.168.55.10:9428/insert/opentelemetry/v1/logs
       otlp_http/victoriametrics:
-        metrics_endpoint: http://192.168.55.10:8428/api/v1/write
-      otlp_http/victoriatraces:
-        traces_endpoint: http://192.168.55.10:10428/insert/opentelemetry/v1/traces
+        compression: gzip
+        encoding: proto
+        metrics_endpoint: http://192.168.55.10:8428/opentelemetry/v1/metrics
       prometheus/servicegraph:
-        endpoint: 0.0.0.0:9090
-        namespace: servicegraph
+        endpoint: 0.0.0.0:10223
     service:
       telemetry:
         logs:
+          level: DEBUG
           encoding: json
           processors:
             - batch:
@@ -59,24 +55,14 @@ spec:
                     protocol: http/protobuf
                     endpoint: http://192.168.55.10:9428/insert/opentelemetry/v1/logs
       pipelines:
-        logs/otlp:
-          receivers:
-            - otlp/default
-          exporters:
-            - otlp_http/victorialogs
         metrics:
-          receivers:
-            - otlp/default
-          exporters:
-            - otlp_http/victoriametrics
-        metrics/servicegraph:
           receivers:
             - service_graph
           exporters:
             - prometheus/servicegraph
+            - otlp_http/victoriametrics
         traces:
           receivers:
-            - otlp/default
+            - otlp
           exporters:
-            - otlp_http/victoriatraces
             - service_graph

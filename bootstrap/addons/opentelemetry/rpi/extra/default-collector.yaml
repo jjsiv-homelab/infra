@@ -1,0 +1,71 @@
+apiVersion: opentelemetry.io/v1beta1
+kind: OpenTelemetryCollector
+metadata:
+  name: default
+  namespace: monitoring
+spec:
+  mode: daemonset
+  tolerations:
+    - key: node-role.kubernetes.io/control-plane
+      operator: Exists
+      effect: NoSchedule
+  volumeMounts:
+    - name: varlogpods
+      mountPath: /var/log/pods
+      readOnly: true
+  volumes:
+    - name: varlogpods
+      hostPath:
+        path: /var/log/pods
+  observability:
+    metrics:
+      enableMetrics: true
+  config:
+    receivers:
+      otlp/default:
+        protocols:
+          grpc:
+            endpoint: 0.0.0.0:4317
+          http:
+            endpoint: 0.0.0.0:4318
+
+    exporters:
+      otlp_http/victorialogs:
+        logs_endpoint: http://192.168.55.10:9428/insert/opentelemetry/v1/logs
+      otlp_http/victoriametrics:
+        compression: gzip
+        encoding: proto
+        metrics_endpoint: http://192.168.55.10:8428/opentelemetry/v1/metrics
+      otlp_http/victoriatraces:
+        traces_endpoint: http://192.168.55.10:10428/insert/opentelemetry/v1/traces
+      otlp_http/servicegraph:
+        traces_endpoint: http://servicegraph-collector:4318/v1/traces
+
+    service:
+      telemetry:
+        logs:
+          level: DEBUG
+          encoding: json
+          processors:
+            - batch:
+                exporter:
+                  otlp:
+                    protocol: http/protobuf
+                    endpoint: http://192.168.55.10:9428/insert/opentelemetry/v1/logs
+      pipelines:
+        logs/otlp:
+          receivers:
+            - otlp/default
+          exporters:
+            - otlp_http/victorialogs
+        metrics:
+          receivers:
+            - otlp/default
+          exporters:
+            - otlp_http/victoriametrics
+        traces:
+          receivers:
+            - otlp/default
+          exporters:
+            - otlp_http/victoriatraces
+            - otlp_http/servicegraph
