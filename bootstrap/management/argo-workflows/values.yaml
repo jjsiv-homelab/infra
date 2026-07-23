@@ -1,4 +1,6 @@
 controller:
+  serviceAccount:
+    create: true
   rbac:
     accessAllSecrets: true
     writeConfigMaps: true
