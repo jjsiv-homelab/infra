@@ -1,6 +1,7 @@
 workflow:
   serviceAccount:
     create: true
+    createSecret: true
   rbac:
     create: true
     agentPermissions: true
