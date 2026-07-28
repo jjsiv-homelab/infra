@@ -2,6 +2,7 @@ workflow:
   serviceAccount:
     create: true
   rbac:
+    create: true
     agentPermissions: true
 
 controller:
