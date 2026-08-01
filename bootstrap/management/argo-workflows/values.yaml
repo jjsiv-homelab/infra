@@ -28,6 +28,3 @@ server:
     ingressClassName: "cilium"
     hosts:
       - workflows.homelab.local
-    tls:
-      - hosts:
-          - workflows.homelab.local
