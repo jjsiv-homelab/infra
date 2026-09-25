@@ -1,0 +1,45 @@
+config:
+  data:
+    file_format: "1.0"
+    log_level: info
+    extensions:
+      obi:
+        version: "2.0"
+        capture:
+          engine:
+            propagation:
+              context_propagation: all
+          policy:
+            default_action: exclude
+            match_order: first_match_wins
+          rules:
+            - action: include
+              name: namespaces
+              match:
+                kubernetes:
+                  namespace_glob:
+                    - example-project-dev
+            - action: include
+              name: annotated-pods
+              match:
+                kubernetes:
+                  pod_annotations:
+                    opentelemetry.io/instrument-ebpf:
+                      - "true"
+    tracer_provider:
+      processors:
+        - batch:
+            exporter:
+              otlp_grpc:
+                endpoint: http://default-collector.monitoring.svc.cluster.local:4317
+                tls:
+                  insecure: true
+            max_export_batch_size: 4096
+            max_queue_size: 16384
+            schedule_delay: 15000
+
+env:
+  OBI_CLUSTER_NAME: rpi
+
+k8sCache:
+  replicas: 1
